@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ReservationModule } from './reservation/reservation.module';
+import { BookingModule } from './booking/booking.module';
 
 @Module({
   imports: [
@@ -11,13 +11,13 @@ import { ReservationModule } from './reservation/reservation.module';
       url: process.env.DATABASE_URL,
       host: 'localhost',
       port: 5432,
-      username: 'your_username',
-      password: 'your_password',
-      database: 'your_database',
+      username: 'myuser',
+      password: 'mypassword',
+      database: 'mydatabase',
       autoLoadEntities: true,
       synchronize: true, // Set to false in production
     }),
-    ReservationModule,
+    BookingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
