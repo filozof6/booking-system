@@ -21,7 +21,6 @@ services:
       DATABASE_URL: postgres://myuser:mypassword@postgres:5432/mydatabase
     volumes:
       - ./backend:/app
-      - /app/node_modules  # prevent node_modules on host from overwriting container deps
     command: npm run start:dev
     ports:
       - "3001:3001"
@@ -36,7 +35,6 @@ services:
       NEXT_PUBLIC_API_URL: http://localhost:3001
     volumes:
       - ./frontend:/app
-      - /app/node_modules
     command: npm run dev
     ports:
       - "3000:3000"
