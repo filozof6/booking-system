@@ -13,4 +13,3 @@ export const createBookingSchema = z
   .required();
 
 //export type CreateBookingDto = z.infer<typeof createBookingSchema>;
-// asdfsadf
