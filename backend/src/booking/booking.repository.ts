@@ -11,6 +11,7 @@ export class BookingRepository {
   ) {}
 
   saveAndReturn = (data: Partial<Booking>) => {
+    console.log("data", data)
     const booking = this.repo.create(data);
     return this.repo.save(booking);
   }

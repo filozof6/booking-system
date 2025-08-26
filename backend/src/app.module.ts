@@ -3,19 +3,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BookingModule } from './booking/booking.module';
-//import { ThrottlerModule } from '@nestjs/throttler';
+import { UserModule } from './user/user.module';
 
 
 @Module({
   imports: [
-    /*ThrottlerModule.forRoot({
-       throttlers: [
-        {
-          ttl: 1000,
-          limit: 1,
-        }
-       ]  
-    }),*/
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.DATABASE_URL,
@@ -28,6 +20,7 @@ import { BookingModule } from './booking/booking.module';
       synchronize: true, // Set to false in production
     }),
     BookingModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

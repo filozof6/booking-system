@@ -3,13 +3,15 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 export default function ReservationForm() {
   const [formData, setFormData] = useState({
     fullName: '',
     dateFrom: null as Date | null,
     dateTo: null as Date | null,
-    phone: '',
+    phone: undefined as string | undefined,
     numberOfGuests: 1,
     numberOfBathrooms: 1,
     numberOfBedrooms: 1,
@@ -17,6 +19,7 @@ export default function ReservationForm() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    console.log(e.target)
     setFormData(prev => ({
       ...prev,
       [name]: value,
@@ -57,14 +60,13 @@ export default function ReservationForm() {
           <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
             Phone Number
           </label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
+          <PhoneInput
+            placeholder="Enter phone number"
             value={formData.phone}
             onChange={handleChange}
-            required
-            className="w-full rounded-xl border border-gray-300 p-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            country={'us'} // Optional: Set a default country
+            className="w-full rounded-xl p-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
+            enableSearch={true}
           />
         </div>
 
