@@ -30,6 +30,8 @@ export default function NumberPickerForm<T extends FieldValues>({
             <Input
               placeholder="number"
               type="number"
+              inputMode="numeric"
+              pattern="[0-9]*"
               {...field}
               value={field.value ?? ""}
               onChange={(e) => field.onChange(Number(e.target.value))}

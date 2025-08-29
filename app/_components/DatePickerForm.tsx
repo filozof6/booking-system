@@ -24,12 +24,14 @@ type Props<T extends FieldValues> = {
   form: UseFormReturn<T>;
   name: Path<T>;
   label: string;
+  palceholder?: string;
 };
 
 export function DatePickerForm<T extends FieldValues>({
   form,
   name,
   label,
+  palceholder = "Pick a date range",
 }: Props<T>) {
   return (
     <FormField
@@ -59,7 +61,7 @@ export function DatePickerForm<T extends FieldValues>({
                       "dd MMM"
                     )}`
                   ) : (
-                    <span>Pick a date range</span>
+                    <span>{palceholder}</span>
                   )}
 
                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -70,7 +72,6 @@ export function DatePickerForm<T extends FieldValues>({
               <Calendar
                 mode="range"
                 selected={field.value}
-                // onSelect={field.onChange}
                 onSelect={(range) => {
                   if (!range) return field.onChange(undefined);
 
@@ -83,7 +84,7 @@ export function DatePickerForm<T extends FieldValues>({
                   field.onChange({ from: start, to: end });
                 }}
                 disabled={(date) =>
-                  date > new Date() || date < new Date("1900-01-01")
+                  date < new Date(new Date().setHours(0, 0, 0, 0))
                 }
                 captionLayout="dropdown"
               />

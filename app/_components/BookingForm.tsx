@@ -19,6 +19,8 @@ import "react-phone-input-2/lib/style.css";
 import { toast } from "sonner";
 import { DatePickerForm } from "./DatePickerForm";
 import NumberPickerForm from "./NumberPickerForm";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
@@ -46,25 +48,38 @@ export default function BookingForm() {
       bathrooms: 1,
     },
   });
+  const t = useTranslations("BookingPage.BookingForm");
+  const router = useRouter();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+    console.log(values.dateRange.from?.toLocaleDateString("es-ES"));
+    const dateFrom = values.dateRange.from?.toLocaleDateString("es-ES");
+    const dateTo = values.dateRange.to?.toLocaleDateString("es-ES");
+    // form.reset();
     toast.success("You have successfully submitted your request!");
+    router.push(
+      `/success?fullname=${
+        values.name + " " + values.surname
+      }&phone=${encodeURIComponent(
+        values.phone
+      )}&dateFrom=${dateFrom}&dateTo=${dateTo}`
+    );
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <fieldset className="grid md:grid-cols-2 md:gap-5">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <fieldset className="grid gap-5 md:grid-cols-2">
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>{t("name")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder={t("name")} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -75,59 +90,84 @@ export default function BookingForm() {
             name="surname"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Surname</FormLabel>
+                <FormLabel>{t("surname")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder={t("surname")} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
         </fieldset>
-        <Controller
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              {/* <FormLabel>{t("phone")}</FormLabel> */}
-              <FormLabel>Phone</FormLabel>
-              <FormControl>
-                <PhoneInput
-                  country="pe"
-                  // enableAreaCodes
-                  disableDropdown={false}
-                  countryCodeEditable={false}
-                  preferredCountries={[
-                    "pe",
-                    "cl",
-                    "us",
-                    "ec",
-                    "bo",
-                    "br",
-                    "co",
-                    "ar",
-                    "de",
-                    "fr",
-                    "cz",
-                  ]}
-                  containerClass="!w-full md:!max-w-[300px]"
-                  inputClass="!w-full"
-                  value={field.value}
-                  onChange={(value) => {
-                    const sanitized = value.startsWith("+")
-                      ? value
-                      : `+${value}`;
-                    field.onChange(sanitized);
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <NumberPickerForm form={form} label="bathrooms" name="bathrooms" />
-        <DatePickerForm form={form} label="From" name="dateRange" />
-        <Button type="submit">Submit</Button>
+        <fieldset className="grid md:grid-cols-2 gap-5">
+          <Controller
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>{t("phone")}</FormLabel>
+                <FormControl>
+                  <PhoneInput
+                    country="pe"
+                    // enableAreaCodes
+                    disableDropdown={false}
+                    countryCodeEditable={false}
+                    preferredCountries={[
+                      "pe",
+                      "cl",
+                      "us",
+                      "ec",
+                      "bo",
+                      "br",
+                      "co",
+                      "ar",
+                      "de",
+                      "fr",
+                      "cz",
+                    ]}
+                    containerClass="!w-full md:!max-w-[300px]"
+                    inputClass="!w-full"
+                    value={field.value}
+                    onChange={(value) => {
+                      const sanitized = value.startsWith("+")
+                        ? value
+                        : `+${value}`;
+                      field.onChange(sanitized);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <DatePickerForm
+            form={form}
+            label={t("dateRange.title")}
+            palceholder={t("dateRange.placeholder")}
+            name="dateRange"
+          />
+        </fieldset>
+
+        <fieldset className="grid gap-5 lg:grid-cols-3">
+          <NumberPickerForm
+            form={form}
+            label={t("numberOfGuests")}
+            name="guests"
+          />
+          <NumberPickerForm
+            form={form}
+            label={t("numberOfBedrooms")}
+            name="bedrooms"
+          />
+          <NumberPickerForm
+            form={form}
+            label={t("numberOfBathrooms")}
+            name="bathrooms"
+          />
+        </fieldset>
+        <Button type="submit" className="w-full">
+          Submit
+        </Button>
       </form>
     </Form>
   );

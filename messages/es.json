@@ -1,5 +1,26 @@
 {
   "HomePage": {
     "title": "¡Hola mundo!"
+  },
+  "NavBar": {
+    "LocaleSwitcher": {
+      "label": "Cambiar idioma",
+      "locale": "{locale, select, es {Español} en {Inglés} other {Desconocido}}"
+    }
+  },
+  "BookingPage": {
+    "title": "¡Reserva tu estadía con nosotros!",
+    "BookingForm": {
+      "name": "Nombre",
+      "surname": "Apellido",
+      "phone": "Número de teléfono",
+      "numberOfGuests": "Número de huéspedes",
+      "numberOfBedrooms": "Número de habitaciones",
+      "numberOfBathrooms": "Número de baños",
+      "dateRange": {
+        "title": "Fechas de la reserva (Desde-Hasta)",
+        "placeholder": "Elige un rango de fechas"
+      }
+    }
   }
 }
