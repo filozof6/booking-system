@@ -4,7 +4,7 @@ export const createBookingSchema = z
   .object({
     fullName: z.string(),
     phoneNumber: z.string(),
-    dateFrom: z.string(), // z.iso.datetime
+    dateFrom: z.iso.datetime(), // z.iso.datetime
     dateTo: z.string(),
     guests: z.number(),
     bedrooms: z.number(),

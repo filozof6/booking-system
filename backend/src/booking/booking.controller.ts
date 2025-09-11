@@ -11,7 +11,7 @@ export class BookingController {
   @Post()
   @UsePipes(new ZodValidationPipe(createBookingSchema))
   create(@Body() body: Partial<Booking>) {
-    console.log("body: ", body)
+    console.log('body: ', body);
     return this.bookingRepository.saveAndReturn(body);
   }
 }

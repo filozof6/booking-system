@@ -53,9 +53,7 @@ export async function sendWhatsAppText({
   } catch (err) {
     if (axios.isAxiosError(err)) {
       const { status, data } = err.response ?? {};
-      throw new Error(
-        `WhatsApp API error ${status}: ${JSON.stringify(data)}`
-      );
+      throw new Error(`WhatsApp API error ${status}: ${JSON.stringify(data)}`);
     }
     throw err;
   }

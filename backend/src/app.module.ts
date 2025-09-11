@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BookingModule } from './booking/booking.module';
 import { UserModule } from './user/user.module';
 
-
 @Module({
   imports: [
     TypeOrmModule.forRoot({
