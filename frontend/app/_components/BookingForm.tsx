@@ -21,8 +21,6 @@ import { DatePickerForm } from "./DatePickerForm";
 import NumberPickerForm from "./NumberPickerForm";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { BookingData } from "@/types/booking";
-import { createBooking } from "../[locale]/actions";
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
@@ -53,31 +51,15 @@ export default function BookingForm() {
   const t = useTranslations("BookingPage.BookingForm");
   const router = useRouter();
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    const booking: BookingData = {
-      fullName: values.name + values.surname,
-      dateFrom: values.dateRange.from!.toISOString(),
-      dateTo: values.dateRange.to!.toISOString(),
-      phoneNumber: values.phone,
-      guests: values.guests,
-      bedrooms: values.bedrooms,
-      bathrooms: values.bathrooms,
-    };
-
-    console.log(booking);
-
-    try {
-      const res = await createBooking(booking);
-
-      console.log("booking created:", res);
-
-      toast.success("You have successfully submitted your request!");
-
-      form.reset();
-
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    console.log(values);
+    console.log(values.dateRange.from?.toLocaleDateString("es-ES"));
       const dateFrom = values.dateRange.from?.toLocaleDateString("es-ES");
       const dateTo = values.dateRange.to?.toLocaleDateString("es-ES");
-
+    // form.reset();
+    toast.success("You have successfully submitted your request!");
       router.push(
         `/success?fullname=${
           values.name + " " + values.surname
@@ -85,12 +67,7 @@ export default function BookingForm() {
           values.phone
         )}&dateFrom=${dateFrom}&dateTo=${dateTo}`
       );
-    } catch (error: unknown) {
-      console.log("Failed to create booking:", error);
-      return toast.error("Something went wrong please try again :(");
-    }
   }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
